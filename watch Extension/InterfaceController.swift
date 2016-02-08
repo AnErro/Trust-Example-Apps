@@ -12,8 +12,11 @@ import WatchConnectivity
 
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
+    //MARK: Attributes
     var  session  :  WCSession!
-
+    @IBOutlet var tlabel: WKInterfaceLabel!
+    @IBOutlet var clabel: WKInterfaceLabel!
+    
     override init() {
         if(WCSession.isSupported()) {
             session =  WCSession.defaultSession()
@@ -22,17 +25,16 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
+    //MARK: Actions
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        // Configure interface objects here.
         
     }
   
     
     override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        
+        //Set self to delegate messages
         if(WCSession.isSupported()) {
             session.delegate = self
             session.activateSession()
@@ -44,13 +46,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         super.didDeactivate()
     }
     
-    @IBOutlet var tlabel: WKInterfaceLabel!
-    @IBOutlet var clabel: WKInterfaceLabel!
-    
-    
-    
-    
-    // So this is pretty straight forward but
+    // So this is pretty straight forward but only handels these 2 responces from message dictionary
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject], replyHandler: ([String : AnyObject]) -> Void) {
         print("We got this from phone:" + message.description)
         

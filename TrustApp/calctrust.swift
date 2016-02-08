@@ -9,7 +9,7 @@
 import Foundation
 
 
-
+//TODO: Make this more robust once taught more about trust models
 class turstmodel{
     var trust, importance, risk, utility: Float
     
@@ -19,20 +19,17 @@ class turstmodel{
         self.risk = risk
         self.utility = utility
     }
-
+    //TODO: Don't return out 0s
     var cooperation: Float{
         let coop = (risk / trust) * importance
         return Float(coop)
     }
-    
+    //TODO: Don't return out 0s
     var trustl: Float {
         let tlevel = utility * importance * trust
         return Float(tlevel)
     }
-   /*
-    let tlevel = utility_slider.value * import_slider.value * trust_slider.value
-    let coop = (risk_slider.value / trust_slider.value) * import_slider.value
-    */
+
 }
 
 

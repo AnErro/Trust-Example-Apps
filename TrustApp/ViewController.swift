@@ -10,28 +10,8 @@ import UIKit
 import WatchConnectivity
 
 class ViewController: UIViewController, WCSessionDelegate {
-   
-    var  session  :  WCSession!
-    
-    required init(coder aDecoder: NSCoder) {
-        self.session = WCSession.defaultSession()
-        super.init(coder: aDecoder)!
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        if (WCSession.isSupported()) {
-            session.delegate = self
-            session.activateSession()
-        }
-    }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     //MARK: Attributes
+    var  session  :  WCSession!
     @IBOutlet weak var tslide: UISlider!
     @IBOutlet weak var rslide: UISlider!
     @IBOutlet weak var islide: UISlider!
@@ -43,10 +23,25 @@ class ViewController: UIViewController, WCSessionDelegate {
     @IBOutlet weak var coopView: UILabel!
     @IBOutlet weak var tlevelView: UILabel!
     
-    
-    
-    
     //MARK: Actions
+    required init(coder aDecoder: NSCoder) {
+        self.session = WCSession.defaultSession()
+        super.init(coder: aDecoder)!
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if (WCSession.isSupported()) {
+            session.delegate = self
+            session.activateSession()
+        }
+    }
+    
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     
     @IBAction func t_update(sender: AnyObject) {
         tvalue.text = String(format: "Value  %.2f",tslide.value)
@@ -69,6 +64,7 @@ class ViewController: UIViewController, WCSessionDelegate {
         
         guard let settings = UIApplication.sharedApplication().currentUserNotificationSettings() else { return }
         
+        // If we don't have permisions yet we can ask them to tap the button on the bottom
         if settings.types == .None {
             let ac = UIAlertController(title: "Can't Do It :(", message: "We don't have permisions to do this notification business", preferredStyle: .Alert)
             ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
@@ -77,9 +73,9 @@ class ViewController: UIViewController, WCSessionDelegate {
         }
         
         let notification = UILocalNotification()
-        /*MARK: Notification Settings:
+        /*MARK: Local Notification Settings:
         fireDate: is the delay
-        alertAction: is the small text underneith the notification
+        alertAction: is the small text under the notification
         userInfo:
         */
         notification.fireDate = NSDate(timeIntervalSinceNow: 5)
@@ -89,10 +85,11 @@ class ViewController: UIViewController, WCSessionDelegate {
         notification.userInfo = ["CustomField1": "It worked!"]
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
         
+        //Checks if session iWatch session is avalible on this device
         if(WCSession.isSupported()){
             let message = ["coop": current.cooperation, "trust": current.trustl];
             
-            //send message dictionary
+            //send message (dictionary)
             session.sendMessage(message, replyHandler: { (content:[String : AnyObject]) -> Void in
                 print("Our counterpart sent something back. This is optional")
                 }, errorHandler: {  (error ) -> Void in
@@ -100,7 +97,7 @@ class ViewController: UIViewController, WCSessionDelegate {
             })
         }
     }
-    
+    //Only asks the user to change permissions to allow this app to do notifications
     @IBAction func regLocalNoticifications(sender: AnyObject) {
         let nset = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(nset)
