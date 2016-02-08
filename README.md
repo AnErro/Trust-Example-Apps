@@ -1,5 +1,5 @@
 # Trust-Example-Apps
-Swift xCode project that contains an IOS app that calculates a Trust level and Co-operation Threshold given certian variables and will share the result with the iWatch app. This is just a learning exercise, it has only been tested on simulated devices. (i.e. not made to look pretty)
+Swift Xcode project that contains an IOS app that calculates a Trust level and Co-operation Threshold given certian variables and will share the result with the iWatch app. This is just a learning exercise, it has only been tested on simulated devices. (i.e. not made to look pretty)
 
 ##Contains Examples Showing
 - Watch Connectivity (Messaging via Sessions) 
