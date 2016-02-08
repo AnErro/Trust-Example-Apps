@@ -17,8 +17,5 @@ Only shares results when both applications are open (IOS and iWatch)
 
 ##Made On:
 Xcode Version 7.2.1 (7C1002)
+
 Tested On: simulated iPhone 6s and iWatch 42mm 
-
-
-
-
